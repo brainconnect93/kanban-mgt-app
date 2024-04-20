@@ -1,9 +1,11 @@
-import Image from "next/image";
+import Sidebar from "./components/Sidebar";
+import BoardTasks from "./components/BoardTasks";
 
 export default function Home() {
   return (
     <main>
-      <p>Hi</p>
+      <Sidebar />
+      <BoardTasks />
     </main>
   );
 }
