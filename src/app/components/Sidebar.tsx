@@ -6,7 +6,7 @@ const Sidebar = () => {
       <p className='text-medium-grey pl-[2.12rem] text-[.95rem] font-semibold uppercase pb-3'>
         {`All Boards (0)`}
       </p>
-      <div className='cursor-pointer flex items-center rounded-tr-full rounded-br-full bg-blue-500 space-x-2 pl-[2.12rem] py-3 pb-3'>
+      <div className='cursor-pointer flex items-center rounded-tr-full rounded-br-full bg-blue-500 space-x-2 pl-[2.12rem] py-2 pb-2'>
         <p className='text-white text-lg capitalize'>Current board name</p>
       </div>
       <button className='flex items-center space-x-2 pl-[2.12rem] py-3'>
