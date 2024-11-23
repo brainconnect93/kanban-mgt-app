@@ -14,11 +14,11 @@ import { useEffect, useState } from "react";
 import { getSession } from "next-auth/react";
 
 // Import data from data.json, used to initialize the Firestore database for new users
-import { data } from "./utils/data.js"
+import { data } from "./utils/data.js";
 
 
 
-const Home = () => {
+export default function Home() {
   // Manage user details in this state. Key index in Typescript ensures type safety.
   const [userDetails, setUserDetails] = useState<{[key: string]: any}>();
 
@@ -40,7 +40,7 @@ const Home = () => {
 
       // if the document exists, terminate the program.
       if (getDos.docs.length > 0) {
-        return
+        return;
       } else {
         // if not, submit a new document containing the data from data.js for the user in the database.
         try {
@@ -70,5 +70,3 @@ const Home = () => {
     </main>
   );
 }
-
-export default Home;

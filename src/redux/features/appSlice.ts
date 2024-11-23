@@ -3,7 +3,7 @@ import { RootState } from "../store";
 
 // Define the initial state for the slice
 const initialState = {
-  currentBoardName: "",
+  currentBoardName: "Roadmap",
 };
 
 export const features = createSlice({

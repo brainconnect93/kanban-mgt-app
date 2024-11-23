@@ -1,21 +1,52 @@
-import React from 'react'
+import { setPageTitle } from "@/components/redux/features/appSlice";
+import { useAppDispatch } from "@/components/redux/hooks";
+import { useFetchDataFromDbQuery } from "@/components/redux/services/apiSlice";
+import React, { useState } from "react";
 
-const Sidebar = () => {
+export default function Sidebar() {
+  // State to keep track of the index of the active board during navigation
+  const [active, setActive] = useState<number>(0);
+
+  const { data } = useFetchDataFromDbQuery();
+  const dispatch = useAppDispatch();
+
+  // Function to handle navigation through boards
+  const handleNav = (index: number, name: string) => {
+    setActive(index);
+    dispatch(setPageTitle(name));
+  };
+
   return (
-    <aside className='w-[18.75rem] flex-none dark:bg-dark-grey h-full py-6 pr-6'>
-      <p className='text-medium-grey pl-[2.12rem] text-[.95rem] font-semibold uppercase pb-3'>
-        {`All Boards (0)`}
-      </p>
-      <div className='cursor-pointer flex items-center rounded-tr-full rounded-br-full bg-blue-500 space-x-2 pl-[2.12rem] py-2 pb-2'>
-        <p className='text-white text-lg capitalize'>Current board name</p>
-      </div>
-      <button className='flex items-center space-x-2 pl-[2.12rem] py-3'>
-        <p className='text-base font-bold capitalize text-main-purple'>
+    <aside className="w-[18.75rem] flex-none dark:bg-dark-grey h-full py-6 pr-6">
+      {data && (
+        <>
+          <p className="text-medium-grey pl-[2.12rem] text-[.95rem] font-semibold uppercase pb-3">
+            {`All Boards (${data[0]?.boards.length})`}
+          </p>
+          {data[0]?.boards.map(
+            (board: { [key: string]: any}, index: number) => {
+              const { name, id } = board;
+              const isActive = index === active; // checks if the board is active
+
+              return (
+                <div
+                  key={id}
+                  onClick={() => handleNav(index, name)} // Handle navigation through boards on click
+                  className={`${
+                    isActive ? 'rounded-tr-full rounded-br-full bg-blue-500 text-white' : 'text-black'
+                    } cursor-pointer flex items-center space-x-2 pl-[2.12rem] py-3 pb-3`}>
+                  <p className="text-lg capitalize">{name}</p>
+                </div>
+              );
+            }
+          )}
+        </>
+      )}
+      <button className="flex items-center space-x-2 pl-[2.12rem] py-3">
+        <p className="text-base font-bold capitalize text-main-purple">
           + Create New Board
         </p>
       </button>
     </aside>
-  )
+  );
 }
-
-export default Sidebar
