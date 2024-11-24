@@ -80,7 +80,7 @@ export default function Navbar() {
   useEffect(() => {
     if(data) {
       // Whwn a user signs in, set the currentBoardName to the first board's name
-      const activeBoard = data[0].boards;
+      const activeBoard = data[0].boards[0];
       dispatch(setPageTitle(activeBoard.name));
     }
   }, [data]);
