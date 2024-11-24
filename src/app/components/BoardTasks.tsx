@@ -1,5 +1,5 @@
-import { getPageTitle } from '@/components/redux/features/appSlice'
-import { useAppSelector } from '@/components/redux/hooks'
+import { getPageTitle, openAddAndEditBoardModal } from '@/components/redux/features/appSlice'
+import { useAppSelector, useAppDispatch } from '@/components/redux/hooks'
 import { useFetchDataFromDbQuery } from '@/components/redux/services/apiSlice'
 import { useEffect, useState } from 'react'
 import { MdEdit, MdDelete } from 'react-icons/md';
@@ -27,6 +27,8 @@ export default function BoardTasks() {
   const [columns, setColumns] = useState<Column[]>([]);
   // get active board name from the redux store
   const activeBoard = useAppSelector(getPageTitle);
+
+  const dispatch = useAppDispatch();
 
   // Once data fetches successfully, this function in the useEffect runs
   useEffect(() => {
@@ -83,7 +85,9 @@ export default function BoardTasks() {
                 );
               })}
               {columns.length < 7 ? (
-                <div className='rounded-md bg-white w-[17.5rem] mt-12 shrink-0 flex justify-center items-center'>
+                <div 
+                  onClick={() => dispatch(openAddAndEditBoardModal('Edit Board'))}
+                  className='rounded-md bg-white w-[17.5rem] mt-12 shrink-0 flex justify-center items-center'>
                   <p className='cursor-pointer font-bold text-black text-2xl'>+ New Column</p>
                 </div>
               ) : (
