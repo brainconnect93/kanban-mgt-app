@@ -1,4 +1,4 @@
-import { setPageTitle } from "@/components/redux/features/appSlice";
+import { openAddAndEditBoardModal, setPageTitle } from "@/components/redux/features/appSlice";
 import { useAppDispatch } from "@/components/redux/hooks";
 import { useFetchDataFromDbQuery } from "@/components/redux/services/apiSlice";
 import React, { useState } from "react";
@@ -42,7 +42,9 @@ export default function Sidebar() {
           )}
         </>
       )}
-      <button className="flex items-center space-x-2 pl-[2.12rem] py-3">
+      <button
+        onClick={() => dispatch(openAddAndEditBoardModal('Add New Board'))}
+        className="flex items-center space-x-2 pl-[2.12rem] py-3">
         <p className="text-base font-bold capitalize text-main-purple">
           + Create New Board
         </p>

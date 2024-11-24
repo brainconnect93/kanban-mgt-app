@@ -15,6 +15,7 @@ import { getSession } from "next-auth/react";
 
 // Import data from data.json, used to initialize the Firestore database for new users
 import { data } from "./utils/data.js";
+import AddAndEditBoardModal from "./components/AddEditBoardModal";
 
 
 
@@ -67,6 +68,7 @@ export default function Home() {
     <main className="flex h-full">
       <Sidebar />
       <BoardTasks />
+      <AddAndEditBoardModal />
     </main>
   );
 }
