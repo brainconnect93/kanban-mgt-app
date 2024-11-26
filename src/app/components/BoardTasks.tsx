@@ -1,4 +1,8 @@
-import { getPageTitle, openAddAndEditBoardModal, openAddAndEditTaskModal } from '@/components/redux/features/appSlice'
+import { 
+  getPageTitle,
+  openAddAndEditBoardModal,
+  openAddAndEditTaskModal,
+  openDeleteBoardAndTaskModal } from '@/components/redux/features/appSlice'
 import { useAppSelector, useAppDispatch } from '@/components/redux/hooks'
 import { useFetchDataFromDbQuery } from '@/components/redux/services/apiSlice'
 import { useEffect, useState } from 'react'
@@ -77,7 +81,15 @@ export default function BoardTasks() {
                                     openAddAndEditTaskModal({ 
                                       variant: 'Edit Task', title, index, name }))}
                                   className='text-lg cursor-pointer' />
-                                <MdDelete className='text-lg cursor-pointer text-red-500' />
+                                <MdDelete
+                                  onClick={() => dispatch(
+                                    openDeleteBoardAndTaskModal({ 
+                                      variant: 'Delete this task?',
+                                      status,
+                                      index,
+                                    }),
+                                  )}
+                                  className='text-lg cursor-pointer text-red-500' />
                               </div>
                             </div>
                           );
