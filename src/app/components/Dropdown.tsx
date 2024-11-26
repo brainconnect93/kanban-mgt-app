@@ -1,5 +1,6 @@
-import { openAddAndEditBoardModal } from '@/components/redux/features/appSlice'
+import { openAddAndEditBoardModal, openDeleteBoardAndTaskModal } from '@/components/redux/features/appSlice'
 import { useAppDispatch } from '@/components/redux/hooks'
+
 
 interface IDropdown {
   show: boolean,
@@ -19,7 +20,9 @@ export default function Dropdown({show}: IDropdown) {
         </button>
       </div>
       <div className='hover:bg-gray-300'>
-        <button className='text-sm px-4 py-2'>
+        <button
+          onClick={() => dispatch(openDeleteBoardAndTaskModal({variant: "Delete this board?"}))}
+          className='text-sm px-4 py-2'>
           Delete Board
         </button>
       </div>

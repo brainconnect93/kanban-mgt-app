@@ -15,6 +15,13 @@ const initialState = {
     index: -1,
     name: "" 
   },
+  isDeleteBoardAndTaskModal: {
+    isOpen: false,
+    variant: "",
+    title: "",
+    status: "",
+    index: -1,
+  },
 };
 
 export const features = createSlice({
@@ -53,6 +60,22 @@ export const features = createSlice({
       state.isAddAndEditTaskModal.index = -1;
       state.isAddAndEditTaskModal.name = "";
     },
+
+    openDeleteBoardAndTaskModal: (state, { payload }) => {
+      state.isDeleteBoardAndTaskModal.isOpen = true;
+      state.isDeleteBoardAndTaskModal.variant = payload.variant;
+      state.isDeleteBoardAndTaskModal.title = payload.title;
+      state.isDeleteBoardAndTaskModal.status = payload.status;
+      state.isDeleteBoardAndTaskModal.index = payload.index;
+    },
+
+    closeDeleteBoardAndTaskModal: (state) => {
+      state.isDeleteBoardAndTaskModal.isOpen = false;
+      state.isDeleteBoardAndTaskModal.variant = "";
+      state.isDeleteBoardAndTaskModal.title = "";
+      state.isDeleteBoardAndTaskModal.status = "";
+      state.isDeleteBoardAndTaskModal.index = -1;
+    },
   },
 });
 
@@ -62,7 +85,9 @@ export const {
   openAddAndEditBoardModal,
   closeAddAndEditBoardModal,
   openAddAndEditTaskModal,
-  closeAddAndEditTaskModal
+  closeAddAndEditTaskModal,
+  openDeleteBoardAndTaskModal,
+  closeDeleteBoardAndTaskModal,
 } = features.actions;
 
 // Selector function to retrieve the current board name from the state
@@ -74,6 +99,11 @@ export const getAddAndEditTaskModalVariantValue = (state: RootState) => state.fe
 export const getAddAndEditTaskModalTitleValue = (state: RootState) => state.features.isAddAndEditTaskModal.title;
 export const getAddAndEditTaskModalIndexValue = (state: RootState) => state.features.isAddAndEditTaskModal.index;
 export const getAddAndEditTaskModalNameValue = (state: RootState) => state.features.isAddAndEditTaskModal.name;
+export const getDeleteBoardAndTaskModalValue = (state: RootState) => state.features.isDeleteBoardAndTaskModal.isOpen;
+export const getDeleteBoardAndTaskModalVariantValue = (state: RootState) => state.features.isDeleteBoardAndTaskModal.variant;
+export const getDeleteBoardAndTaskModalTitleValue = (state: RootState) => state.features.isDeleteBoardAndTaskModal.title;
+export const getDeleteBoardAndTaskModalStatusValue = (state: RootState) => state.features.isDeleteBoardAndTaskModal.status;
+export const getDeleteBoardAndTaskModalIndexValue = (state: RootState) => state.features.isDeleteBoardAndTaskModal.index;
 
 // Export the reducer for use in the Redux store
 export default features.reducer;

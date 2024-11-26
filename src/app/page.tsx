@@ -17,6 +17,7 @@ import { getSession } from "next-auth/react";
 import { data } from "./utils/data.js";
 import AddAndEditBoardModal from "./components/AddEditBoardModal";
 import AddEditTaskModal from "./components/AddEditTaskModal";
+import DeleteBoardAndTaskModal from "./components/DeleteBoardTask";
 
 
 
@@ -71,6 +72,7 @@ export default function Home() {
       <BoardTasks />
       <AddAndEditBoardModal />
       <AddEditTaskModal />
+      <DeleteBoardAndTaskModal />
     </main>
   );
 }
