@@ -5,8 +5,10 @@ import {
   openDeleteBoardAndTaskModal } from '@/components/redux/features/appSlice'
 import { useAppSelector, useAppDispatch } from '@/components/redux/hooks'
 import { useFetchDataFromDbQuery } from '@/components/redux/services/apiSlice'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
+import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import { MdEdit, MdDelete } from 'react-icons/md';
+import { StrictModeDroppable as Droppable } from './StrictModeDroppable';
 
 
 // Define types for the tasks data
@@ -50,6 +52,80 @@ export default function BoardTasks() {
       }
     }
   }, [data, activeBoard]);
+
+  // check if it’s the first render
+const initialRender = useRef(true);
+
+
+const handleDragEnd = async ({ destination, source }: any) => {
+  // Check if the destination is not null (i.e., it was dropped in a valid droppable)
+  if (!destination) return;
+
+
+  // get a deep nested copy of the columns state
+  const newColumns = columns.map((column) => ({
+    ...column,
+    tasks: column.tasks ? [...column.tasks] : [], // Create a new array for tasks
+  }));
+
+
+  // Find the source and destination columns based on their droppableIds
+  const sourceColumnIndex = newColumns.findIndex(
+    (col) => col.id === source.droppableId
+  );
+  const destinationColumnIndex = newColumns.findIndex(
+    (col) => col.id === destination.droppableId
+  );
+
+
+  // Task that was dragged
+  const itemMoved = newColumns[sourceColumnIndex]?.tasks[source.index];
+
+
+  // Remove from its source
+  newColumns[sourceColumnIndex].tasks.splice(source.index, 1);
+
+
+  // Insert into its destination
+  newColumns[destinationColumnIndex].tasks.splice(
+    destination.index,
+    0,
+    itemMoved
+  );
+
+
+  // Update the state
+  setColumns(newColumns);
+};
+
+
+useEffect(() => {
+  // Check if it's the initial render, to avoid sending the data to the backend on mount
+  if (!initialRender.current) {
+    // Update the backend with the new order
+    try {
+      if (data) {
+        const [boards] = data;
+        const boardsCopy = [...boards.boards];
+        const activeBoardIndex = boardsCopy.findIndex(
+          (board: { name: string }) => board.name === activeBoard
+        );
+        const updatedBoard = {
+          ...boards.boards[activeBoardIndex],
+          columns,
+        };
+        boardsCopy[activeBoardIndex] = updatedBoard;
+        updatedBoard(boardsCopy);
+      }
+    } catch (error) {
+      // Handle error
+      console.error("Error updating board:", error);
+    }
+  } else {
+    // Set initial render to false after the first render
+    initialRender.current = false;
+  }
+}, [columns]);
 
   return (
     <div className='overflow-x-auto overflow-y-auto w-full bg-stone-200'>
