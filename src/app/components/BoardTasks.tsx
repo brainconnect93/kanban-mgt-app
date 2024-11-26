@@ -1,4 +1,4 @@
-import { getPageTitle, openAddAndEditBoardModal } from '@/components/redux/features/appSlice'
+import { getPageTitle, openAddAndEditBoardModal, openAddAndEditTaskModal } from '@/components/redux/features/appSlice'
 import { useAppSelector, useAppDispatch } from '@/components/redux/hooks'
 import { useFetchDataFromDbQuery } from '@/components/redux/services/apiSlice'
 import { useEffect, useState } from 'react'
@@ -65,14 +65,18 @@ export default function BoardTasks() {
 
                     {tasks && 
                       (tasks.length > 0 ? (
-                        tasks.map((task) => {
+                        tasks.map((task, index) => {
                           const { id, title, status} = task;
 
                           return (
                             <div key={id} className='bg-white p-6 rounded-md mt-6 flex items-center justify-between border'>
                               <p>{title}</p>
                               <div className='flex items-center space-x-1'>
-                                <MdEdit className='text-lg cursor-pointer' />
+                                <MdEdit
+                                  onClick={() => dispatch(
+                                    openAddAndEditTaskModal({ 
+                                      variant: 'Edit Task', title, index, name }))}
+                                  className='text-lg cursor-pointer' />
                                 <MdDelete className='text-lg cursor-pointer text-red-500' />
                               </div>
                             </div>
